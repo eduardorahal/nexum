@@ -55,7 +55,7 @@ export async function GET(request) {
 
   const validToken = await validateToken(token, cpfResponsavel)
   if (validToken) {
-    if (now > late || now < early) {
+    if (now > late || now < early || now.getDay == 0 || now.getDay == 6) {
 
       // armazena as informações da requisição de detalhamento
       try {

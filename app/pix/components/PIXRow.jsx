@@ -220,7 +220,9 @@ const PIXRow = (props) => {
                             rowCount={requisicoes.length}
                         />
                         <TableBody>
-                            {requisicoes
+                            {
+                            (requisicoes.length > 0) &&
+                            requisicoes
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((requisicao) => (
                                     <Row key={uuidv4()} requisicao={requisicao} />
@@ -231,7 +233,7 @@ const PIXRow = (props) => {
                 <TablePagination
                     rowsPerPageOptions={[20, 50, 100]}
                     component="div"
-                    count={requisicoes.length}
+                    count={requisicoes.length > 0 ? requisicoes.length : 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
