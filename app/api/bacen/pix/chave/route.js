@@ -53,9 +53,15 @@ export async function GET(request) {
                 if (chave.status == null) {
                     chave.status = 'INATIVO'
                 }
-                if (chave.cpfCnpj == null) {
-                    chave.nomeProprietario = chave.eventosVinculo.nomeProprietario;
-                    chave.cpfCnpj = chave.eventosVinculo.cpfCnpj;
+                if (chave.cpfCnpj == null || !(chave.cpfCnpj)) {
+                    if(chave.eventosVinculo.nomeProprietario){
+                        chave.nomeProprietario = chave.eventosVinculo.nomeProprietario;
+                        chave.cpfCnpj = chave.eventosVinculo.cpfCnpj;
+                    } else {
+                        chave.nomeProprietario = 'NOME NÃO INFORMADO';
+                        chave.cpfCnpj = 'CPF/CNPJ NÃO INFORMADO'
+                    }
+                    
                 }
 
                 // armazena as informações da requisição contendo os dados do solicitante e a resposta obtida
