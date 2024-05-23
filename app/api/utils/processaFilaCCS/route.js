@@ -11,21 +11,23 @@ export async function GET(request) {
 
     const now = new Date();
 
+    const isWeekday = now.getDay() >= 1 && now.getDay() <= 5;
+  
     var late = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(), // the next day, ...
-        18, 55, 0 // ...at 00:00:00 hours
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(), // the next day, ...
+      18, 55, 0 // ...at 00:00:00 hours
     );
-
+  
     var early = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(), // the next day, ...
-        10, 0, 0 // ...at 00:00:00 hours
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(), // the next day, ...
+      10, 0, 0 // ...at 00:00:00 hours
     );
-
-    if (now > late || now < early) {
+  
+      if (now < early || now > late || !isWeekday) {
 
         lista.push({msg: 'Detalhamento somente pode ser solicitado entre 10h e 19h', status: 'falha' })
 

@@ -39,6 +39,8 @@ export async function GET(request) {
 
   const now = new Date();
 
+  const isWeekday = now.getDay() >= 1 && now.getDay() <= 5;
+
   var late = new Date(
     now.getFullYear(),
     now.getMonth(),
@@ -55,7 +57,7 @@ export async function GET(request) {
 
   const validToken = await validateToken(token, cpfResponsavel)
   if (validToken) {
-    if (now > late || now < early || now.getDay == 0 || now.getDay == 6) {
+    if (now < early || now > late || !isWeekday) {
 
       // armazena as informações da requisição de detalhamento
       try {
