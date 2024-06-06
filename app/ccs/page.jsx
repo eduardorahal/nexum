@@ -35,7 +35,7 @@ const DashCCS = () => {
             setLoading(true)
             await axios
                 .get(
-                    "/api/bacen/ccs/requisicoesccs?cpfResponsavel=" + cpfResponsavel + '&token=' + token
+                    "/nexum/api/bacen/ccs/requisicoesccs?cpfResponsavel=" + cpfResponsavel + '&token=' + token
                 )
                 .then((response) => response.data)
                 .then((res) => {

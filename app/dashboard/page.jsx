@@ -41,7 +41,7 @@ const Dashboard = () => {
                                 Consulta CCS
                             </Typography>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary" align='justify'>
-                                Consulta ao BACEN pelo CPF ou Ag/Conta do investigado
+                                Consulta ao BACEN pelo CPF ou CNPJ, visando saber com quais Instituições Financeiras o investigado possui relacionamentos.
                             </Typography>
                         </CardContent>
                     </CardActionArea>

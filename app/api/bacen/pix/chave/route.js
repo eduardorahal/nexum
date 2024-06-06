@@ -7,6 +7,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     let lista = [];
     let cpfResponsavel = searchParams.get('cpfResponsavel');
+    let lotacao = searchParams.get('lotacao');
     let token = (searchParams.get('token')).replaceAll(" ", "+");
     let chaveBusca = searchParams.get('chave');
     let motivo = searchParams.get('motivo');
@@ -69,6 +70,7 @@ export async function GET(request) {
                 let requisicao = {
                     data: data,
                     cpfResponsavel: cpfResponsavel,
+                    lotacao: lotacao,
                     caso: caso,
                     tipoBusca: 'chave',
                     chaveBusca: chaveBusca,
@@ -90,6 +92,7 @@ export async function GET(request) {
                 let requisicao = {
                     data: data,
                     cpfResponsavel: cpfResponsavel,
+                    lotacao: lotacao,
                     caso: caso,
                     tipoBusca: 'chave',
                     chaveBusca: chaveBusca,

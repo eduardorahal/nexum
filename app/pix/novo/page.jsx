@@ -70,6 +70,7 @@ const ConsultaPix = () => {
     // variável para recuperar o CPF do usuário do Context
     const { state, dispatch } = React.useContext(Context)
     const cpfResponsavel = state.cpf
+    const lotacao = state.lotacao
     const token = state.token
 
     // Caso haja solicitação de detalhamento, as informações ficam nessa variável antes de serem atribuídas para a lista
@@ -166,7 +167,7 @@ const ConsultaPix = () => {
                 } else {
                     setOpenDialogRequisicoesPIX(true)
                     argsBusca.map(async (arg, i, arr) => {
-                        await axios.get('/api/bacen/pix/cpfCnpj?cpfCnpj=' + arg.cpfCnpj + '&motivo=' + arg.motivo + '&cpfResponsavel=' + cpfResponsavel + '&token=' + token)
+                        await axios.get('/nexum/api/bacen/pix/cpfCnpj?cpfCnpj=' + arg.cpfCnpj + '&motivo=' + arg.motivo + '&cpfResponsavel=' + cpfResponsavel + '&lotacao=' + lotacao + '&token=' + token)
                             .then(response => response.data[0])
                             .then((vinculos) => {
                                 if (vinculos.length == 0 || vinculos == 'CPF/CNPJ não encontrado' || vinculos == "Nenhuma Chave PIX encontrada") {
@@ -195,7 +196,7 @@ const ConsultaPix = () => {
                 } else {
                     setOpenDialogRequisicoesPIX(true)
                     argsBusca.map(async (arg, i, arr) => {
-                        await axios.get('/api/bacen/pix/chave?chave=' + arg.chave + '&motivo=' + arg.motivo + '&cpfResponsavel=' + cpfResponsavel + '&token=' + token)
+                        await axios.get('/nexum/api/bacen/pix/chave?chave=' + arg.chave + '&motivo=' + arg.motivo + '&cpfResponsavel=' + cpfResponsavel + '&lotacao=' + lotacao + '&token=' + token)
                             .then((response) => {
                                 return response.data
                             })

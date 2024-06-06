@@ -35,7 +35,7 @@ const DashPIX = () => {
             setLoading(true)
             await axios
                 .get(
-                    "/api/bacen/pix/requisicoespix?cpfCnpj=" + cpfResponsavel + '&token=' + token
+                    "/nexum/api/bacen/pix/requisicoespix?cpfCnpj=" + cpfResponsavel + '&token=' + token
                 )
                 .then((response) => response.data)
                 .then((res) => {

@@ -29,6 +29,7 @@ import 'dayjs/locale/en-gb';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { v4 as uuidv4 } from "uuid";
+import DialogExportaRelacionamentosCCS from "../components/Relatorios/ExportaRelacionamentosCCS";
 
 const ConsultaCCS = () => {
 
@@ -45,6 +46,7 @@ const ConsultaCCS = () => {
   // variável para recuperar o CPF do usuário do Context
   const { state, dispatch } = React.useContext(Context)
   const cpfResponsavel = state.cpf
+  const lotacao = state.lotacao
   const token = state.token
 
   // variável para controle de soliticação de relacionamentos
@@ -55,9 +57,17 @@ const ConsultaCCS = () => {
   const [deAcordo, setDeAcordo] = React.useState(false);
 
   // variável para controle de soliticação de detalhamento
+  const [detalhaVisivel, setDetalhaVisivel] = React.useState(true);
   const [openDialogDetalhamentoCCS, setOpenDialogDetalhamentoCCS] = React.useState(false);
   const [listaDetalhamentos, setListaDetalhamentos] = React.useState([]);
   const [statusDetalhamentos, setStatusDetalhamentos] = React.useState(false);
+
+  // variáveis e funções de controle de abertura de popup para Exportação de Dados
+  const [openDialogRelatorio, setOpenDialogRelatorio] = React.useState(false);
+
+  const callExportDialog = (tipo) => {
+      setOpenDialogRelatorio(true)
+  }
 
   // Função para Adicionar mais um item à consulta
   function addConsulta() {
@@ -159,7 +169,7 @@ const ConsultaCCS = () => {
 
           await axios
             .get(
-              "/api/bacen/ccs/relacionamento?cpfCnpj=" +
+              "/nexum/api/bacen/ccs/relacionamento?cpfCnpj=" +
               arg.cpfCnpj +
               "&dataInicio=" +
               formatarDataCCS(arg.dataInicio) +
@@ -170,8 +180,10 @@ const ConsultaCCS = () => {
               "&motivo=" +
               arg.motivo +
               "&cpfResponsavel=" +
-              cpfResponsavel + 
-              '&token=' + 
+              cpfResponsavel +
+              '&lotacao=' +
+              lotacao +
+              '&token=' +
               token
             )
             .then((response) => response.data[0])
@@ -202,7 +214,7 @@ const ConsultaCCS = () => {
     relacionamentos.map(async (relacionamento, i, arr) => {
       await axios
         .get(
-          "/api/bacen/ccs/detalhamento?numeroRequisicao=" +
+          "/nexum/api/bacen/ccs/detalhamento?numeroRequisicao=" +
           relacionamento.numeroRequisicao +
           "&cpfCnpj=" +
           relacionamento.idPessoa +
@@ -220,7 +232,7 @@ const ConsultaCCS = () => {
           relacionamento.nomeBancoResponsavel +
           "&cpfResponsavel=" +
           cpfResponsavel +
-          '&token=' + 
+          '&token=' +
           token
         )
         .then((response) => {
@@ -426,6 +438,17 @@ const ConsultaCCS = () => {
           >
             Limpar
           </Button>
+          <Button style={{ marginInlineEnd: 20 }} disabled={(relacionamentos.length == 0) && true} variant="outlined" color='error' size="small" onClick={() => callExportDialog('pdf')} >
+            Exportar PDF
+          </Button>
+          {
+                    openDialogRelatorio &&
+                    <DialogExportaRelacionamentosCCS
+                        openDialogRelatorio={openDialogRelatorio}
+                        setOpenDialogRelatorio={setOpenDialogRelatorio}
+                        requisicoes={lista}
+                    />
+                }
         </Grid>
         <Grid>
           {relacionamentos.length > 0 ? (
@@ -435,6 +458,7 @@ const ConsultaCCS = () => {
                 variant="contained"
                 size="small"
                 onClick={detalhaCCS}
+                disabled={!detalhaVisivel}
               >
                 Solicitar Detalhamentos
               </Button>
@@ -474,6 +498,7 @@ const ConsultaCCS = () => {
                           setOpenDialogDetalhamentoCCS={setOpenDialogDetalhamentoCCS}
                           listaDetalhamentos={listaDetalhamentos}
                           statusDetalhamentos={statusDetalhamentos}
+                          setDetalhaVisivel={setDetalhaVisivel}
                         />
                       }
                       {relacionamentos.map((relacionamento) => (

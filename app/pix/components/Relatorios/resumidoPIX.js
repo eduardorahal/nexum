@@ -4,8 +4,8 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 export default async function RelatorioResumidoPix(vinculosPix) {
 
-    const Logo_LAB = await fetch('/base64/Logo_LAB.txt').then(response => response.text())
-    const Logo_PCSC = await fetch('/base64/Logo_PCSC.txt').then(response => response.text())
+    const Logo_LAB = await fetch('/nexum/base64/Logo_LAB.txt').then(response => response.text())
+    const Logo_PCSC = await fetch('/nexum/base64/Logo_PCSC.txt').then(response => response.text())
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
