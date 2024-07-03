@@ -1,8 +1,51 @@
-import { Card, CardContent, Typography, CardActionArea, Box, CardMedia, Grid } from '@mui/material';
-import React from 'react';
+'use client'
+
+import { useContext, useEffect, useState } from 'react';
+import { Context } from '../context';
+import { Card, CardContent, Typography, CardActionArea, Box } from '@mui/material';
 import Link from 'next/link';
+import axios from 'axios';
 
 const Dashboard = () => {
+
+    const { state, dispatch } = useContext(Context);
+
+    //variável para controle de carregamento de página
+    const [loading, setLoading] = useState(true)
+
+    // variável para recuperar o CPF do usuário do Context
+    const cpfResponsavel = state.cpf
+    const token = state.token
+
+    // Chamada da API para Buscar Requisições armazenadas no Banco de Dados
+
+    useEffect(() => {
+        const atualizaCCS = async () => {
+            setLoading(true)
+            await axios
+                .get(
+                    "/nexum/api/utils/processaFilaCCS?cpfResponsavel=" + cpfResponsavel + '&token=' + token
+                )
+                .then((response) => response.data)
+                .then((res) => {
+                    console.log(res)
+                })
+                .catch((err) => console.error(err));
+            await axios
+                .get(
+                    "/nexum/api/utils/recebeBDVCCS?cpfResponsavel=" + cpfResponsavel + '&token=' + token
+                )
+                .then((response) => response.data)
+                .then((res) => {
+                    console.log(res)
+                    setLoading(false);
+                })
+                .catch((err) => console.error(err));
+        };
+        atualizaCCS();
+    }, [cpfResponsavel, token])
+
+
     return (
         <Box style={{display: 'flex'}}>
             {/* <Box width='300px' padding='20px'>
